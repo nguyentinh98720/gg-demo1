@@ -1,0 +1,71 @@
+* bộ source api cần có các phần sau:
+- resource api cho các tính năng CRUD
+- sử dụng spring data jpa cho tầng data repo
+- tích hợp thêm querydsl vào spring data (optional)
+- tích hợp spring security, trước mắt là Oauth2 resource server 
+- tích hợp open api swagger ui
+- tích hợp quản lý migrate database bằng liquibase
+
+* Account
+- Mã người dùng				user_id
+- Tên đăng nhập				login_name
+- Mật khẩu					password
+- Mã băm					hash_pass
+- Tên						first_name
+- Họ						last_name
+- Địa chỉ					address
+- Số điện thoại				phone_number
+- Khóa truy cập				token
+- Trạng thái tài khoản		status
+- Quyền hạn					role
+- Đã xóa khỏi hệ thống		deleted
+- Loại quyền hạn			role_type				ADMIN, VIP_USER, FREE_USER
+
+
+** ADMIN
++ Liệt kê danh sách tài khoản thành viên
++ Thêm tài khoản mới
++ Vô hiệu hóa hoặc xóa tài khoản thành viên bất kỳ
++ Xem thông tin chi tiết của mỗi tài khoản
++ Thao tác thêm sửa xóa với cơ sỏ dữ liệu nation database
+
+** USER
++ Đăng ký tài khoản mới
++ Đăng nhập
++ Xem thông tin tài khoản của chính user đang đăng nhập
++ Vô hiệu hóa tài khoản hiện tại
++ Truy vấn các thông tin có trong nation database
+
+	* VIP: try cập được tất cả các thông tin có trong nation database
+	* FREE: truy vấn hạn chế (ít thông tin hơn) tới nation database
+
+* Continents		java data type
+- continent_id		byte
+- name				string
+* Countries
+- country_id		integer
+- name				string
+- area				long (.00)
+- national_day		date sql
+- country_code2		string
+- country_code3		string
+- region_id			byte
+* regions
+- region_id			byte
+- name				string
+- continent_id		byte
+	* Country_languages
+	- country_id		integer
+	- language_id		integer
+	- offical			boolean
+* Language
+- language_id		integer
+- language				string
+	* Region_areas
+	- region_name		string
+	- region_area		long
+	* Country_stats
+	- country_id		integer
+	- year				integer
+	- population		long
+	- gdp				bigInteger
