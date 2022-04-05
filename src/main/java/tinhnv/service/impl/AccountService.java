@@ -101,6 +101,7 @@ public class AccountService implements IAccountService {
 
 	@Override
 	public AccountDTO createNewAccount(RegisterForm account) throws Exception {
+	    //TODO nen throw Exception cu the hon, vi du nhu AccountExistException..., em tim hieu them ve Exception handling in Spring
 		if(repository.isLoginNameExist(account.getLoginName()) > 0) throw new Exception("Account  already exist!");
 		if(!account.getPassword().equals(account.getRepeatPass())) throw new Exception("Password and repeat password do not match!");
 		

@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.Hidden;
 @Hidden
 public class ErrorResponse {
 
+    //TODO nen dung static cho bien "success"
 	private final boolean success = false;
 	private String message;
 	private String errorCode;

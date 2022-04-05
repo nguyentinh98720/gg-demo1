@@ -30,9 +30,11 @@ public class Country {
 	@Column(precision=10, scale=2)
 	private BigDecimal area;
 	
+	//TODO nen dat ten theo dang camelCase
 	@Column(nullable=true)
 	private Date national_day;
 	
+	//TODO ten bien khong nen su dung so
 	@Column(length=2, nullable=false, unique=true, columnDefinition="CHAR")
 	private String country_code2;
 	

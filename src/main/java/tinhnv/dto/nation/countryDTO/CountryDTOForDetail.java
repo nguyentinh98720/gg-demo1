@@ -31,6 +31,7 @@ public class CountryDTOForDetail extends CountryDTOForList {
 		super(countryId, countryName);
 	}
 
+	//TODO constructor khong nen qua ngieu tham so, tot nhat dung Builder pattern
 	public CountryDTOForDetail(Integer countryId, String countryName, BigDecimal area,
 			Date nationalDay, String countryCode2, String countryCode3,
 			RegionDTOForList region, List<StatisticDTO> statistics, List<LanguageDTO> languages) {
