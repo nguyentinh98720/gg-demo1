@@ -26,7 +26,6 @@ public class RegionArea {
 
 	public RegionArea() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public String getName() {

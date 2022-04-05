@@ -24,7 +24,7 @@ import tinhnv.service.IAccountService;
 
 @Tag(name = "Account Manage" ,description = "Quản lý tài khoản ứng dụng cho người quản trị")
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/account-manage")
 public class AccountManageController {
 
 	@Autowired

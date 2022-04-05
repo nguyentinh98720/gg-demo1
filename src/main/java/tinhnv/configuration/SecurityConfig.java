@@ -39,11 +39,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().authorizeRequests()
          	.antMatchers("/register", "/login").permitAll()
-				.antMatchers("/admin/**").hasAuthority("ADMIN")
+				.antMatchers("/account-manage/**", "/nation-manage/**").hasAuthority("ADMIN")
 				.anyRequest().authenticated()
 				.and().formLogin()
-//				.loginPage("/login")
-				.defaultSuccessUrl("/welcome").permitAll()
-				.and().logout().permitAll();
+				.loginPage("/login")
+				.defaultSuccessUrl("/welcome")
+				.failureUrl("/login_error")
+				.permitAll()
+				.and().logout()
+				.logoutSuccessUrl("/bye")
+//				.deleteCookies("JSESSIONID")
+				.permitAll();
 	}
 }

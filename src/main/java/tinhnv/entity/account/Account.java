@@ -39,11 +39,11 @@ public class Account {
 	@Column(name = "dia_chi")
 	private String address;
 
-	@Column(name = "khoa_truy_cap")
-	private String token;
+//	@Column(name = "khoa_truy_cap")
+//	private String token;
 	
-	@Column(name = "tao_khoa")
-	private Timestamp timeToken;
+//	@Column(name = "tao_khoa")
+//	private Timestamp timeToken;
 
 	@Column(name = "hoat_dong")
 	private boolean active;
@@ -102,11 +102,12 @@ public class Account {
 	}
 
 	public String getToken() {
-		return token;
+//		return token;
+		return null;
 	}
 
 	public void setToken(String token) {
-		this.token = token;
+//		this.token = token;
 	}
 
 	public boolean isActive() {
@@ -138,10 +139,11 @@ public class Account {
 	}
 
 	public Timestamp getTimeToken() {
-		return timeToken;
+//		return timeToken;
+		return null;
 	}
 
 	public void setTimeToken(Timestamp timeToken) {
-		this.timeToken = timeToken;
+//		this.timeToken = timeToken;
 	}
 }

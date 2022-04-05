@@ -33,4 +33,19 @@ public class CountryStatisticId implements Serializable {
 		this.year = year;
 	}
 
+	@Override
+	public int hashCode() {
+		return country + year;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if(this == obj) return true;
+		if(obj == null | obj.getClass() != this.getClass()) return false;
+		CountryStatisticId csi = (CountryStatisticId) obj;
+		return (this.country == csi.getCountry() && this.year == csi.getYear());
+	}
+	
+	
+
 }

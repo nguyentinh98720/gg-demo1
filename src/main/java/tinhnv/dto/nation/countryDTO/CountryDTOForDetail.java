@@ -16,48 +16,24 @@ import tinhnv.dto.nation.regionDTO.RegionDTOForList;
 import tinhnv.dto.nation.statisticDTO.StatisticDTO;
 import tinhnv.entity.nation.Country;
 
-public class CountryDTOForDetail extends CountryDTOForList {
+public class CountryDTOForDetail extends CountryDTOForCreate {
 
-	private BigDecimal area;
-	private Date nationalDay;
-	private String countryCode2;
-	private String countryCode3;
 	private EntityModel<RegionDTOForList> region;
 	private List<StatisticDTO> statistics;
 	private List<LanguageDTO> languages;
 	
 
-	public CountryDTOForDetail(Integer countryId, String countryName) {
-		super(countryId, countryName);
+	public CountryDTOForDetail() {
+		super();
 	}
 
 	public CountryDTOForDetail(Integer countryId, String countryName, BigDecimal area,
 			Date nationalDay, String countryCode2, String countryCode3,
 			RegionDTOForList region, List<StatisticDTO> statistics, List<LanguageDTO> languages) {
-		super(countryId, countryName);
-		this.area = area;
-		this.nationalDay = nationalDay;
-		this.countryCode2 = countryCode2;
-		this.countryCode3 = countryCode3;
+		super(countryId, countryName, area, nationalDay, countryCode2, countryCode3);
 		this.setRegion(region);
 		this.statistics = statistics;
 		this.setLanguages(languages);
-	}
-
-	public BigDecimal getArea() {
-		return area;
-	}
-
-	public Date getNationalDay() {
-		return nationalDay;
-	}
-
-	public String getCountryCode2() {
-		return countryCode2;
-	}
-
-	public String getCountryCode3() {
-		return countryCode3;
 	}
 
 	public EntityModel<RegionDTOForList> getRegion() {
@@ -66,22 +42,6 @@ public class CountryDTOForDetail extends CountryDTOForList {
 
 	public List<StatisticDTO> getStatistics() {
 		return statistics;
-	}
-
-	public void setArea(BigDecimal area) {
-		this.area = area;
-	}
-
-	public void setNationalDay(Date nationalDay) {
-		this.nationalDay = nationalDay;
-	}
-
-	public void setCountryCode2(String countryCode2) {
-		this.countryCode2 = countryCode2;
-	}
-
-	public void setCountryCode3(String countryCode3) {
-		this.countryCode3 = countryCode3;
 	}
 
 	public void setRegion(RegionDTOForList region) {

@@ -33,10 +33,10 @@ public class Country {
 	@Column(nullable=true)
 	private Date national_day;
 	
-	@Column(length=2, nullable=false, unique=true, columnDefinition="CHAR")
+	@Column(nullable=false, unique=true, columnDefinition="CHAR(2)")
 	private String country_code2;
 	
-	@Column(length=3, nullable=false, unique=true, columnDefinition="CHAR")
+	@Column(nullable=false, unique=true, columnDefinition="CHAR(3)")
 	private String country_code3;
 	
 	@ManyToOne
