@@ -32,4 +32,17 @@ public class CountryLanguageId  implements Serializable{
 	public CountryLanguageId() {
 		super();
 	}
+
+	@Override
+	public int hashCode() {
+		return country + language;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if(this == obj) return true;
+		if(obj == null || obj.getClass() != this.getClass()) return false;
+		CountryLanguageId cli = (CountryLanguageId) obj;
+		return (this.country == cli.getCountry() && this.language == cli.getLanguage());
+	}
 }

@@ -43,6 +43,10 @@ public class Region {
 		this.countries = countries;
 	}
 
+	public Region(String regionName, Continent continent) {
+		this(regionName, continent, null);
+	}
+
 	public String getName() {
 		return name;
 	}

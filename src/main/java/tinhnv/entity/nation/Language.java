@@ -8,16 +8,33 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="languages")
+@Table(name = "languages")
 public class Language {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="language_id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "language_id")
 	private Integer id;
-	
-	@Column(name="language", nullable=false, length=50)
+
+	@Column(name = "language", nullable = false, length = 50)
 	private String language;
+	
+	public Language() {
+		super();
+	}
+
+	public Language(String language) {
+		super();
+		this.language = language;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	public String getLanguage() {
 		return language;
@@ -26,6 +43,5 @@ public class Language {
 	public void setLanguage(String language) {
 		this.language = language;
 	}
-	
-	
+
 }

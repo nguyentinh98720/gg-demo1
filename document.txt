@@ -2,7 +2,7 @@
 - resource api cho các tính năng CRUD
 - sử dụng spring data jpa cho tầng data repo
 - tích hợp thêm querydsl vào spring data (optional)
-- tích hợp spring security, trước mắt là Oauth2 resource server 
+- tích hợp spring security, trước mắt là Oauth2 resource server
 - tích hợp open api swagger ui
 - tích hợp quản lý migrate database bằng liquibase
 

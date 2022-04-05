@@ -34,11 +34,15 @@ public class Country {
 	@Column(nullable=true)
 	private Date national_day;
 	
+<<<<<<< HEAD
 	//TODO ten bien khong nen su dung so
 	@Column(length=2, nullable=false, unique=true, columnDefinition="CHAR")
+=======
+	@Column(nullable=false, unique=true, columnDefinition="CHAR(2)")
+>>>>>>> e711dc28e1769d35b85d9923a8b1e4d239007d14
 	private String country_code2;
 	
-	@Column(length=3, nullable=false, unique=true, columnDefinition="CHAR")
+	@Column(nullable=false, unique=true, columnDefinition="CHAR(3)")
 	private String country_code3;
 	
 	@ManyToOne

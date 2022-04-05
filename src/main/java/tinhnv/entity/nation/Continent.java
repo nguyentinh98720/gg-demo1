@@ -28,13 +28,16 @@ public class Continent {
 
 	public Continent() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Continent(String name, List<Region> regions) {
 		super();
 		this.name = name;
 		this.regions = regions;
+	}
+
+	public Continent(String continentName) {
+		this(continentName, null);
 	}
 
 	public Integer getId() {

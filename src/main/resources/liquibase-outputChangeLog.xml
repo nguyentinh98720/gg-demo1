@@ -1,0 +1,147 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+    <changeSet author="Steve (generated)" id="1649040583105-1">
+        <createTable tableName="continents">
+            <column autoIncrement="true" name="continent_id" type="INT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Steve (generated)" id="1649040583105-2">
+        <createTable tableName="countries">
+            <column autoIncrement="true" name="country_id" type="INT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(50)"/>
+            <column name="area" type="DECIMAL(10, 2)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="NULL" name="national_day" type="date"/>
+            <column name="country_code2" type="CHAR(2)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="country_code3" type="CHAR(3)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="region_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Steve (generated)" id="1649040583105-3">
+        <createTable tableName="country_languages">
+            <column name="country_id" type="INT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="language_id" type="INT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="official" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Steve (generated)" id="1649040583105-4">
+        <createTable tableName="country_stats">
+            <column name="country_id" type="INT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="year" type="INT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column defaultValueComputed="NULL" name="population" type="INT"/>
+            <column defaultValueComputed="NULL" name="gdp" type="DECIMAL(15)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Steve (generated)" id="1649040583105-5">
+        <createTable tableName="languages">
+            <column autoIncrement="true" name="language_id" type="INT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="language" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Steve (generated)" id="1649040583105-6">
+        <createTable tableName="region_areas">
+            <column name="region_name" type="VARCHAR(100)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="region_area" type="DECIMAL(15, 2)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Steve (generated)" id="1649040583105-7">
+        <createTable tableName="regions">
+            <column autoIncrement="true" name="region_id" type="INT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="continent_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="region_name" type="VARCHAR(100)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Steve (generated)" id="1649040583105-8">
+        <createTable tableName="tai_khoan">
+            <column autoIncrement="true" name="ma_tai_khoan" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column defaultValueBoolean="false" name="hoat_dong" type="BIT"/>
+            <column name="dia_chi" type="VARCHAR(255)"/>
+            <column defaultValueBoolean="false" name="da_xoa" type="BIT"/>
+            <column name="ho_va_ten" type="VARCHAR(255)"/>
+            <column name="ten_dang_nhap" type="VARCHAR(255)"/>
+            <column name="mat_khau" type="VARCHAR(255)"/>
+            <column name="quyen_han" type="VARCHAR(255)"/>
+            <column name="khoa_truy_cap" type="VARCHAR(255)"/>
+            <column defaultValueComputed="NULL" name="tao_khoa" type="datetime"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Steve (generated)" id="1649040583105-9">
+        <createIndex indexName="FK64lk836p2287fvi6fb5oj983a" tableName="regions">
+            <column name="region_name"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Steve (generated)" id="1649040583105-10">
+        <createIndex indexName="continent_id" tableName="regions">
+            <column name="continent_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Steve (generated)" id="1649040583105-11">
+        <createIndex indexName="language_id" tableName="country_languages">
+            <column name="language_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Steve (generated)" id="1649040583105-12">
+        <createIndex indexName="region_id" tableName="countries">
+            <column name="region_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Steve (generated)" id="1649040583105-13">
+        <addForeignKeyConstraint baseColumnNames="region_name" baseTableName="regions" constraintName="FK64lk836p2287fvi6fb5oj983a" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="region_name" referencedTableName="region_areas" validate="true"/>
+    </changeSet>
+    <changeSet author="Steve (generated)" id="1649040583105-14">
+        <addForeignKeyConstraint baseColumnNames="region_id" baseTableName="countries" constraintName="countries_ibfk_1" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="region_id" referencedTableName="regions" validate="true"/>
+    </changeSet>
+    <changeSet author="Steve (generated)" id="1649040583105-15">
+        <addForeignKeyConstraint baseColumnNames="country_id" baseTableName="country_languages" constraintName="country_languages_ibfk_1" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="country_id" referencedTableName="countries" validate="true"/>
+    </changeSet>
+    <changeSet author="Steve (generated)" id="1649040583105-16">
+        <addForeignKeyConstraint baseColumnNames="language_id" baseTableName="country_languages" constraintName="country_languages_ibfk_2" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="language_id" referencedTableName="languages" validate="true"/>
+    </changeSet>
+    <changeSet author="Steve (generated)" id="1649040583105-17">
+        <addForeignKeyConstraint baseColumnNames="country_id" baseTableName="country_stats" constraintName="country_stats_ibfk_1" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="country_id" referencedTableName="countries" validate="true"/>
+    </changeSet>
+    <changeSet author="Steve (generated)" id="1649040583105-18">
+        <addForeignKeyConstraint baseColumnNames="continent_id" baseTableName="regions" constraintName="regions_ibfk_1" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="continent_id" referencedTableName="continents" validate="true"/>
+    </changeSet>
+</databaseChangeLog>
