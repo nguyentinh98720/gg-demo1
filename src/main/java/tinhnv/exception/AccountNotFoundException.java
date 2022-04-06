@@ -2,7 +2,7 @@ package tinhnv.exception;
 
 public class AccountNotFoundException extends RuntimeException {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 11028374206382355L;
 
 	public AccountNotFoundException() {
 		super();

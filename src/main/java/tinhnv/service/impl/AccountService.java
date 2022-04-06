@@ -20,7 +20,11 @@ import tinhnv.dto.RegisterForm;
 import tinhnv.dto.account.AccountDTO;
 import tinhnv.dto.account.DetailAccountDTO;
 import tinhnv.entity.account.Account;
+import tinhnv.entity.account.builder.AccountBuilder;
+import tinhnv.entity.account.concreate.AccountConcreateBuilder;
+import tinhnv.exception.AccountExistException;
 import tinhnv.exception.AccountNotFoundException;
+import tinhnv.exception.FormTransferException;
 import tinhnv.repository.AccountRepository;
 import tinhnv.service.IAccountService;
 
@@ -38,12 +42,18 @@ public class AccountService implements IAccountService {
 	PasswordEncoder passwordEncoder;
 
 	@Override
-	public AccountDTO createNewAccount(DetailAccountDTO account) {
-		Account newAccount = new Account(account.getLoginName(),
-				account.getFullName(), account.getAddress(),
-				account.isActive(), account.getRole());
-		newAccount.setPassword(passwordEncoder.encode(account.getPassword()));
-		return AccountDTO.toDTO(repository.save(newAccount));
+	public AccountDTO createNewAccount(DetailAccountDTO account) throws Exception {
+		if(repository.isLoginNameExist(account.getLoginName()) > 0) {
+			throw new AccountExistException("Tài khoản đã tồn tại!");
+		}
+		AccountBuilder newAccount = new AccountConcreateBuilder();
+		newAccount.setLoginName(account.getLoginName())
+		.setFullName(account.getFullName())
+		.setAddress(account.getAddress())
+		.setActive(account.isActive())
+		.setRole(account.getRole())
+		.setPassword(passwordEncoder.encode(account.getPassword()));
+		return AccountDTO.toDTO(repository.save(newAccount.buildEntity()));
 	}
 
 	@Override
@@ -57,7 +67,8 @@ public class AccountService implements IAccountService {
 	@Override
 	public AccountDTO detailAccount(Long id) {
 		Account account = repository.findById(id)
-				.orElseThrow(() -> new AccountNotFoundException("No Accound found for detail!"));
+				.orElseThrow(() ->
+				new AccountNotFoundException("Không tìm thấy tài khoản theo yêu cầu!"));
 		return DetailAccountDTO.toDTO(account);
 	}
 
@@ -79,13 +90,14 @@ public class AccountService implements IAccountService {
 			update.setPassword(passwordEncoder.encode(account.getPassword()));
 			return AccountDTO.toDTO(repository.save(update));
 		}
-		throw new AccountNotFoundException("No Account found to update!");
+		throw new AccountNotFoundException("Không tìm thấy tài khoản!");
 	}
 
 	@Override
 	public DetailAccountDTO detailAccount(String loginName) {
 		Account account = repository.findByLoginName(loginName)
-				.orElseThrow(() -> new AccountNotFoundException("No account found with login name: " + loginName));
+				.orElseThrow(() -> 
+				new AccountNotFoundException("Không tìm thấy tài khoản nào với tên đăng nhập: " + loginName));
 		return DetailAccountDTO.toDTO(account);
 	}
 
@@ -101,16 +113,23 @@ public class AccountService implements IAccountService {
 
 	@Override
 	public AccountDTO createNewAccount(RegisterForm account) throws Exception {
-	    //TODO nen throw Exception cu the hon, vi du nhu AccountExistException..., em tim hieu them ve Exception handling in Spring
-		if(repository.isLoginNameExist(account.getLoginName()) > 0) throw new Exception("Account  already exist!");
-		if(!account.getPassword().equals(account.getRepeatPass())) throw new Exception("Password and repeat password do not match!");
+		if(repository.isLoginNameExist(account.getLoginName()) > 0) {
+			throw new AccountExistException("Tài khoản đã tồn tại!");
+		}
 		
-		Account createAccount = new Account(
-				account.getLoginName(), account.getFullName(), account.getAddress(),
-				true, "FREE_USER"
-				);
+		if(!account.getPassword().equals(account.getRepeatPass())) {
+			throw new FormTransferException("Mật khẩu nhập lại không khớp!");
+		}
+		
+		AccountBuilder createAccount = new AccountConcreateBuilder();
+		createAccount.setLoginName(account.getLoginName())
+		.setFullName(account.getFullName())
+		.setAddress(account.getAddress())
+		.setActive(true)
+		.setRole("FREE_USER");
+		
 		createAccount.setPassword(passwordEncoder.encode(account.getPassword()));
-		return AccountDTO.toDTO(repository.save(createAccount));
+		return AccountDTO.toDTO(repository.save(createAccount.buildEntity()));
 	}
 	
 	private Iterable<Account> findAll(boolean deleted, Pageable page) {
@@ -131,6 +150,6 @@ public class AccountService implements IAccountService {
 			update.setPassword(passwordEncoder.encode(account.getPassword()));
 			return AccountDTO.toDTO(repository.save(update));
 		}
-		throw new AccountNotFoundException("No Account found to update!");
+		throw new AccountNotFoundException("Không tìm thấy tài khoản theo yêu cầu!");
 	}
 }

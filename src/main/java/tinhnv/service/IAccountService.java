@@ -8,7 +8,7 @@ import tinhnv.dto.account.DetailAccountDTO;
 
 public interface IAccountService {
 
-	AccountDTO createNewAccount(DetailAccountDTO account);
+	AccountDTO createNewAccount(DetailAccountDTO account) throws Exception;
 	List<AccountDTO> allAccount(int pageNumber, int pageSize, boolean deleted);
 	List<AccountDTO> allAccount(boolean deleted);
 	AccountDTO detailAccount(Long id);

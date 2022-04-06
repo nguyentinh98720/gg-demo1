@@ -1,4 +1,4 @@
-package tinhnv.dto.nation.regionDTO;
+package tinhnv.dto.nation.regiondto;
 
 import tinhnv.entity.nation.Region;
 

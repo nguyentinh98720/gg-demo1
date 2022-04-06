@@ -1,5 +1,4 @@
-//TODO Package name khong dc viet hoa
-package tinhnv.dto.nation.continentDTO;
+package tinhnv.dto.nation.continentdto;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -9,7 +8,7 @@ import java.util.stream.Collectors;
 import org.springframework.hateoas.EntityModel;
 
 import tinhnv.controller.NationController;
-import tinhnv.dto.nation.regionDTO.RegionDTOForList;
+import tinhnv.dto.nation.regiondto.RegionDTOForList;
 import tinhnv.entity.nation.Continent;
 
 public class ContinentDTOForDetail extends ContinentDTOForList {

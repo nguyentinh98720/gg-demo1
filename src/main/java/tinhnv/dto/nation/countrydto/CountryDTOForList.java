@@ -1,4 +1,4 @@
-package tinhnv.dto.nation.countryDTO;
+package tinhnv.dto.nation.countrydto;
 
 import tinhnv.entity.nation.Country;
 

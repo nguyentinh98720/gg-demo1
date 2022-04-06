@@ -2,6 +2,8 @@ package tinhnv.dto.account;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import tinhnv.entity.account.Account;
+import tinhnv.entity.account.builder.AccountBuilder;
+import tinhnv.entity.account.concreate.AccountConcreateBuilder;
 
 @Schema(name = "Chi tiết tài khoản")
 public class DetailAccountDTO extends AccountDTO {
@@ -10,14 +12,6 @@ public class DetailAccountDTO extends AccountDTO {
 	private String password;
 	@Schema(description = "Địa chỉ")
 	private String address;
-
-	public DetailAccountDTO(Long id, String loginName, String password, String fullName,
-			String address, boolean active,
-			String role) {
-		super(id, loginName, fullName, role, active);
-		this.password = password;
-		this.address = address;
-	}
 	
 	public DetailAccountDTO() {
 	}
@@ -39,8 +33,14 @@ public class DetailAccountDTO extends AccountDTO {
 	}
 
 	public static DetailAccountDTO toDTO(Account account) {
-		return new DetailAccountDTO(account.getId(), account.getLoginName(),
-				account.getPassword(), account.getFullName(), account.getAddress(),
-				account.isActive(), account.getRole());
+		AccountBuilder builder = new AccountConcreateBuilder();
+		return builder.setId(account.getId())
+				.setLoginName(account.getLoginName())
+				.setPassword(account.getPassword())
+				.setFullName(account.getFullName())
+				.setAddress(account.getAddress())
+				.setActive(account.isActive())
+				.setRole(account.getRole())
+				.buildDetailDTO();
 	}
 }

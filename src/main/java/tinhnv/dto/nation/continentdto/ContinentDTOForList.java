@@ -1,4 +1,4 @@
-package tinhnv.dto.nation.continentDTO;
+package tinhnv.dto.nation.continentdto;
 
 import tinhnv.entity.nation.Continent;
 

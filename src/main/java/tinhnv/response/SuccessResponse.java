@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.Hidden;
 @Hidden
 public class SuccessResponse {
 
-	private final boolean success = true;
+	private static final boolean success = true;
 	private String status;
 	private String message;
 	private Object data;

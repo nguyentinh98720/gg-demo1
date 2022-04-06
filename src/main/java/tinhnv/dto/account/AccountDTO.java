@@ -4,6 +4,8 @@ import org.springframework.stereotype.Component;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import tinhnv.entity.account.Account;
+import tinhnv.entity.account.builder.AccountBuilder;
+import tinhnv.entity.account.concreate.AccountConcreateBuilder;
 
 @Component
 public class AccountDTO {
@@ -20,8 +22,13 @@ public class AccountDTO {
 	private boolean active;
 	
 	public static AccountDTO toDTO(Account account) {
-		return new AccountDTO(account.getId(), account.getLoginName(), account.getFullName(), account.getRole(),
-				account.isActive());
+		AccountBuilder accountBuilder = new AccountConcreateBuilder();
+		accountBuilder.setId(account.getId())
+		.setLoginName(account.getLoginName())
+		.setFullName(account.getFullName())
+		.setRole(account.getRole())
+		.setActive(account.isActive());
+		return accountBuilder.buildDTO();
 	}
 
 	public AccountDTO() {

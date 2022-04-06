@@ -5,9 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -25,15 +29,16 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import tinhnv.dto.nation.continentDTO.ContinentDTOForList;
-import tinhnv.dto.nation.countryDTO.CountryDTOForCreate;
-import tinhnv.dto.nation.countryDTO.CountryDTOForDetail;
-import tinhnv.dto.nation.countryDTO.CountryDTOForList;
-import tinhnv.dto.nation.languageDTO.TinyLanguageDTO;
-import tinhnv.dto.nation.regionDTO.RegionDTOForList;
-import tinhnv.dto.nation.statisticDTO.StatisticDTO;
+import tinhnv.dto.nation.continentdto.ContinentDTOForList;
+import tinhnv.dto.nation.countrydto.CountryDTOForCreate;
+import tinhnv.dto.nation.countrydto.CountryDTOForDetail;
+import tinhnv.dto.nation.countrydto.CountryDTOForList;
+import tinhnv.dto.nation.languagedto.TinyLanguageDTO;
+import tinhnv.dto.nation.regiondto.RegionDTOForList;
+import tinhnv.dto.nation.statisticdto.StatisticDTO;
 import tinhnv.entity.nation.Language;
 import tinhnv.service.INationService;
+import tinhnv.transfer.Paging;
 
 @RestController
 @RequestMapping("/nation-manage")
@@ -47,6 +52,56 @@ public class NationManageController {
 	
 	public NationManageController() {
 		mapper = new ObjectMapper();
+	}
+	
+	@GetMapping("/languages/list")
+	public CollectionModel<Language> listLanguages(@RequestParam Integer pageNo, @RequestParam Integer pageSize) {
+		Paging<Language> page = service.listLanguages(pageNo, pageSize);
+		ArrayList<Link> links = new ArrayList<>();
+		links.add(WebMvcLinkBuilder.linkTo(
+				WebMvcLinkBuilder.methodOn(NationManageController.class).listLanguages(pageNo, pageSize)
+				).withSelfRel());
+		if(!page.isFirstPage()) {
+			links.add(WebMvcLinkBuilder.linkTo(
+					WebMvcLinkBuilder.methodOn(NationManageController.class).listLanguages(pageNo - 1, pageSize)
+					).withRel("prev"));
+		}
+		if(!page.isLastPage()) {
+			links.add(WebMvcLinkBuilder.linkTo(
+					WebMvcLinkBuilder.methodOn(NationManageController.class).listLanguages(pageNo + 1, pageSize)
+					).withRel("next"));
+		}
+		return CollectionModel.of(page.getData(), links);
+	}
+	
+	@GetMapping("/countries/list")
+	public CollectionModel<CountryDTOForList> listCountries(@RequestParam Integer pageNo, @RequestParam Integer pageSize) {
+		Paging<CountryDTOForList> page = service.listCountries(pageNo, pageSize);
+		ArrayList<Link> links = new ArrayList<>();
+		links.add(WebMvcLinkBuilder.linkTo(
+				WebMvcLinkBuilder.methodOn(NationManageController.class).listCountries(pageNo, pageSize))
+				.withSelfRel());
+		if(!page.isFirstPage()) {
+			links.add(WebMvcLinkBuilder.linkTo(
+					WebMvcLinkBuilder.methodOn(NationManageController.class).listCountries(pageNo - 1, pageSize))
+					.withRel("prev"));
+		}
+		if(!page.isLastPage()) {
+			links.add(WebMvcLinkBuilder.linkTo(
+					WebMvcLinkBuilder.methodOn(NationManageController.class).listCountries(pageNo + 1, pageSize))
+					.withRel("next"));
+		}
+		return CollectionModel.of(page.getData(), links);
+	}
+	
+	@GetMapping("/regions/list")
+	public CollectionModel<RegionDTOForList> listRegions() {
+		return CollectionModel.of(service.listRegion());
+	}
+	
+	@GetMapping("/continents/list")
+	public CollectionModel<ContinentDTOForList> listContinents() {
+		return CollectionModel.of(service.listContinent());
 	}
 	
 	@PostMapping("/languages")

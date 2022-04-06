@@ -1,4 +1,4 @@
-package tinhnv.dto.nation.statisticDTO;
+package tinhnv.dto.nation.statisticdto;
 
 import java.math.BigDecimal;
 

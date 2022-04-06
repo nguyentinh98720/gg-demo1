@@ -30,20 +30,16 @@ public class Country {
 	@Column(precision=10, scale=2)
 	private BigDecimal area;
 	
-	//TODO nen dat ten theo dang camelCase
-	@Column(nullable=true)
-	private Date national_day;
+	@Column(name="national_day", nullable=true)
+	private Date nationalDay;
 	
-<<<<<<< HEAD
-	//TODO ten bien khong nen su dung so
-	@Column(length=2, nullable=false, unique=true, columnDefinition="CHAR")
-=======
-	@Column(nullable=false, unique=true, columnDefinition="CHAR(2)")
->>>>>>> e711dc28e1769d35b85d9923a8b1e4d239007d14
-	private String country_code2;
+	@Column(nullable=false, name="country_code2",
+			unique=true, columnDefinition="CHAR(2)")
+	private String countryCodeTwoChars;
 	
-	@Column(nullable=false, unique=true, columnDefinition="CHAR(3)")
-	private String country_code3;
+	@Column(nullable=false, name="country_code3",
+			unique=true, columnDefinition="CHAR(3)")
+	private String countryCodeThreeChars;
 	
 	@ManyToOne
 	@JoinColumn(name="region_id", nullable=false)
@@ -67,18 +63,6 @@ public class Country {
 		super();
 	}
 
-	public Country(String name, BigDecimal area, Date national_day, String country_code2, String country_code3,
-			Region region, List<Statistic> stats) {
-		super();
-		this.name = name;
-		this.area = area;
-		this.national_day = national_day;
-		this.country_code2 = country_code2;
-		this.country_code3 = country_code3;
-		this.region = region;
-		this.stats = stats;
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -95,28 +79,28 @@ public class Country {
 		this.area = area;
 	}
 
-	public Date getNational_day() {
-		return national_day;
+	public Date getNationalDay() {
+		return nationalDay;
 	}
 
-	public void setNational_day(Date national_day) {
-		this.national_day = national_day;
+	public void setNationalDay(Date national_day) {
+		this.nationalDay = national_day;
 	}
 
-	public String getCountry_code2() {
-		return country_code2;
+	public String getCountryCodeTwoChars() {
+		return countryCodeTwoChars;
 	}
 
-	public void setCountry_code2(String country_code2) {
-		this.country_code2 = country_code2;
+	public void setCountryCodeTwoChars(String countryCodeTwoChars) {
+		this.countryCodeTwoChars = countryCodeTwoChars;
 	}
 
-	public String getCountry_code3() {
-		return country_code3;
+	public String getCountryCodeThreeChars() {
+		return countryCodeThreeChars;
 	}
 
-	public void setCountry_code3(String country_code3) {
-		this.country_code3 = country_code3;
+	public void setCountryCodeThreeChars(String countryCodeThreeChars) {
+		this.countryCodeThreeChars = countryCodeThreeChars;
 	}
 
 	public Region getRegion() {

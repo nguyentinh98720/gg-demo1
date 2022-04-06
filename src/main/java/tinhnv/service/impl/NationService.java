@@ -11,20 +11,23 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
-import tinhnv.dto.nation.continentDTO.ContinentDTOForDetail;
-import tinhnv.dto.nation.continentDTO.ContinentDTOForList;
-import tinhnv.dto.nation.countryDTO.CountryDTOForCreate;
-import tinhnv.dto.nation.countryDTO.CountryDTOForDetail;
-import tinhnv.dto.nation.countryDTO.CountryDTOForList;
-import tinhnv.dto.nation.languageDTO.TinyLanguageDTO;
-import tinhnv.dto.nation.regionDTO.RegionDTOForDetail;
-import tinhnv.dto.nation.regionDTO.RegionDTOForList;
-import tinhnv.dto.nation.statisticDTO.StatisticDTO;
+import tinhnv.dto.nation.continentdto.ContinentDTOForDetail;
+import tinhnv.dto.nation.continentdto.ContinentDTOForList;
+import tinhnv.dto.nation.countrydto.CountryDTOForCreate;
+import tinhnv.dto.nation.countrydto.CountryDTOForDetail;
+import tinhnv.dto.nation.countrydto.CountryDTOForList;
+import tinhnv.dto.nation.languagedto.TinyLanguageDTO;
+import tinhnv.dto.nation.regiondto.RegionDTOForDetail;
+import tinhnv.dto.nation.regiondto.RegionDTOForList;
+import tinhnv.dto.nation.statisticdto.StatisticDTO;
 import tinhnv.entity.nation.Continent;
 import tinhnv.entity.nation.Country;
 import tinhnv.entity.nation.CountryLanguages;
@@ -38,6 +41,8 @@ import tinhnv.entity.nation.QStatistic;
 import tinhnv.entity.nation.Region;
 import tinhnv.entity.nation.RegionArea;
 import tinhnv.entity.nation.Statistic;
+import tinhnv.entity.nation.builder.CountryInformationBuilder;
+import tinhnv.entity.nation.concreate.CountryInformationConcreateBuilder;
 import tinhnv.entity.nation.idClass.CountryStatisticId;
 import tinhnv.repository.ContinentRepository;
 import tinhnv.repository.CountryLanguageRepository;
@@ -47,6 +52,7 @@ import tinhnv.repository.RegionAreaRepository;
 import tinhnv.repository.RegionRepository;
 import tinhnv.repository.StatisticRepository;
 import tinhnv.service.INationService;
+import tinhnv.transfer.Paging;
 
 @Service
 @Transactional
@@ -155,8 +161,14 @@ public class NationService implements INationService {
 	@Override
 	public CountryDTOForList createCountry(CountryDTOForCreate countryData, Integer regionId, List<TinyLanguageDTO> listLang) {
 		Region currentRegion = region.getById(regionId);
-		Country newCountry = new Country(countryData.getCountryName(), countryData.getArea(), countryData.getNationalDay(),
-				countryData.getCountryCode2(), countryData.getCountryCode3(), currentRegion, null);
+		CountryInformationBuilder builder = new CountryInformationConcreateBuilder();
+		Country newCountry = builder.setName(countryData.getCountryName())
+				.setArea(countryData.getArea())
+				.setNationalDay(countryData.getNationalDay())
+				.setCountryCodeTwoChars(countryData.getCountryCode2())
+				.setCountryCodeThreeChars(countryData.getCountryCode3())
+				.setRegion(currentRegion)
+				.buildEntity();
 		List<CountryLanguages> countryLanguages = new ArrayList<>();
 		listLang.forEach(lang -> {
 			Language language = languageRepo.getById(lang.getLanguageId());
@@ -255,9 +267,9 @@ public class NationService implements INationService {
 		.where(qCountry.id.eq(country.getCountryId()))
 		.set(qCountry.name, country.getCountryName())
 		.set(qCountry.area, country.getArea())
-		.set(qCountry.country_code2, country.getCountryCode2())
-		.set(qCountry.country_code3, country.getCountryCode3())
-		.set(qCountry.national_day, country.getNationalDay())
+		.set(qCountry.countryCodeTwoChars, country.getCountryCode2())
+		.set(qCountry.countryCodeThreeChars, country.getCountryCode3())
+		.set(qCountry.nationalDay, country.getNationalDay())
 		.execute();
 		if(regionId > 0) {
 			Region r = queryFactory.selectFrom(qRegion)
@@ -285,6 +297,31 @@ public class NationService implements INationService {
 		.set(qStat.gdp, statistic.getGdp())
 		.execute();
 		return null;
+	}
+
+	@Override
+	public Paging<Language> listLanguages(Integer pageNo, Integer pageSize) {
+		Pageable page = PageRequest.of(pageNo, pageSize);
+		Page<Language> languagePage = languageRepo.findAll(page);
+		return Paging.paging(languagePage);
+	}
+
+	@Override
+	public Paging<CountryDTOForList> listCountries(Integer pageNo, Integer pageSize) {
+		Pageable page = PageRequest.of(pageNo, pageSize);
+		Page<CountryDTOForList> countryPage = country.findAll(page)
+				.map(CountryDTOForList::toDTO);
+		return Paging.paging(countryPage);
+	}
+
+	@Override
+	public List<RegionDTOForList> listRegion() {
+		return region.findAll().stream().map(RegionDTOForList::toDTO).collect(Collectors.toList());
+	}
+
+	@Override
+	public List<ContinentDTOForList> listContinent() {
+		return continent.findAll().stream().map(ContinentDTOForList::toDTO).collect(Collectors.toList());
 	}
 
 }

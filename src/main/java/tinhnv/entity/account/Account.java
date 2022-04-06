@@ -1,7 +1,5 @@
 package tinhnv.entity.account;
 
-import java.sql.Timestamp;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -73,77 +71,60 @@ public class Account {
 		return loginName;
 	}
 
-	public void setLoginName(String loginName) {
-		this.loginName = loginName;
-	}
-
 	public String getPassword() {
 		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public String getFullName() {
 		return fullName;
 	}
 
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
-	}
-
 	public String getAddress() {
 		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getToken() {
-//		return token;
-		return null;
-	}
-
-	public void setToken(String token) {
-//		this.token = token;
 	}
 
 	public boolean isActive() {
 		return active;
 	}
 
-	public void setActive(boolean active) {
-		this.active = active;
-	}
-
 	public String getRole() {
 		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
 	}
 
 	public boolean isDeleted() {
 		return deleted;
 	}
 
-	public void setDeleted(boolean deleted) {
-		this.deleted = deleted;
-	}
-
 	public Long getId() {
 		return id;
 	}
 
-	public Timestamp getTimeToken() {
-//		return timeToken;
-		return null;
+	public void setLoginName(String loginName) {
+		this.loginName = loginName;
 	}
 
-	public void setTimeToken(Timestamp timeToken) {
-//		this.timeToken = timeToken;
+	public void setPassword(String password) {
+		this.password = password;
 	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+	
 }

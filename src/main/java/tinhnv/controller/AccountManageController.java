@@ -59,7 +59,7 @@ public class AccountManageController {
 	@PostMapping("/accounts")
 	@Operation(description="Thêm tài khoản mới")
 	public MyResponse<EntityModel<AccountDTO>> create(
-			@Parameter(required=true, description="Thông tin tài khoản mới") @RequestBody DetailAccountDTO account) {
+			@Parameter(required=true, description="Thông tin tài khoản mới") @RequestBody DetailAccountDTO account) throws Exception {
 		AccountDTO acc = service.createNewAccount(account);
 		return new MyResponse<>(true, "", modelAssembler.toModel(acc));
 	}

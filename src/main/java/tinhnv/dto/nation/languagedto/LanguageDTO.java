@@ -1,4 +1,4 @@
-package tinhnv.dto.nation.languageDTO;
+package tinhnv.dto.nation.languagedto;
 
 import tinhnv.entity.nation.CountryLanguages;
 

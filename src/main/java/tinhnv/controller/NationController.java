@@ -20,12 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import tinhnv.dto.nation.continentDTO.ContinentDTOForDetail;
-import tinhnv.dto.nation.continentDTO.ContinentDTOForList;
-import tinhnv.dto.nation.countryDTO.CountryDTOForDetail;
-import tinhnv.dto.nation.countryDTO.CountryDTOForList;
-import tinhnv.dto.nation.regionDTO.RegionDTOForDetail;
-import tinhnv.dto.nation.regionDTO.RegionDTOForList;
+import tinhnv.dto.nation.continentdto.ContinentDTOForDetail;
+import tinhnv.dto.nation.continentdto.ContinentDTOForList;
+import tinhnv.dto.nation.countrydto.CountryDTOForDetail;
+import tinhnv.dto.nation.countrydto.CountryDTOForList;
+import tinhnv.dto.nation.regiondto.RegionDTOForDetail;
+import tinhnv.dto.nation.regiondto.RegionDTOForList;
 import tinhnv.response.SuccessResponse;
 import tinhnv.service.INationService;
 

@@ -1,4 +1,4 @@
-package tinhnv.dto.nation.countryDTO;
+package tinhnv.dto.nation.countrydto;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -13,15 +13,6 @@ public class CountryDTOForCreate extends CountryDTOForList {
 	public CountryDTOForCreate() {
 		super();
 	};
-	
-	public CountryDTOForCreate(Integer countryId, String countryName, BigDecimal area,
-			Date nationalDay, String countryCode2, String countryCode3) {
-		super(countryId, countryName);
-		this.area = area;
-		this.nationalDay = nationalDay;
-		this.countryCode2 = countryCode2;
-		this.countryCode3 = countryCode3;
-	}
 
 	public BigDecimal getArea() {
 		return area;

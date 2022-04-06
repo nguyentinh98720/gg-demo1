@@ -1,4 +1,4 @@
-package tinhnv.dto.nation.regionDTO;
+package tinhnv.dto.nation.regiondto;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 import org.springframework.hateoas.EntityModel;
 
 import tinhnv.controller.NationController;
-import tinhnv.dto.nation.continentDTO.ContinentDTOForList;
-import tinhnv.dto.nation.countryDTO.CountryDTOForList;
+import tinhnv.dto.nation.continentdto.ContinentDTOForList;
+import tinhnv.dto.nation.countrydto.CountryDTOForList;
 import tinhnv.entity.nation.Region;
 
 public class RegionDTOForDetail extends RegionDTOForList {

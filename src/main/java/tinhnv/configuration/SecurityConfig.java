@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/account-manage/**", "/nation-manage/**").hasAuthority("ADMIN")
 				.anyRequest().authenticated()
 				.and().formLogin()
-				.loginPage("/login")
+//				.loginPage("/login")
 				.defaultSuccessUrl("/welcome")
 				.failureUrl("/login_error")
 				.permitAll()
