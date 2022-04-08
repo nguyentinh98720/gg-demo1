@@ -37,38 +37,48 @@ public class AccountController {
 	@Operation(description="Xem thông tin tài khoản",
 			responses= {
 				@ApiResponse(content = @Content(array = @ArraySchema(schema = @Schema(implementation = DetailAccountDTO.class))), responseCode = "200")
-			}
-	)
+			})
 	@GetMapping("/profiles")
-	public SuccessResponse profile(@Parameter(required=false, hidden=true) @AuthenticationPrincipal UserDetails user) {
+	public SuccessResponse profile(
+			@Parameter(required=false, hidden=true) @AuthenticationPrincipal UserDetails user) {
+		
 		DetailAccountDTO account = service.detailAccount(user.getUsername());
 		EntityModel<DetailAccountDTO> model = EntityModel.of(
 				account,
 				linkTo(methodOn(AccountController.class).profile(null)).withSelfRel(),
 				linkTo(methodOn(AccountController.class).deleteProfile(null, null)).withRel("delete")
 				);
-		return new SuccessResponse("","", model);
+		return new SuccessResponse("","Thông tin tài khoản", model);
 	}
+	
 	
 	@Operation(description="Chỉnh sửa thông tin tài khoản")
 	@PutMapping("/profiles")
-	public SuccessResponse updateProfile(@Parameter(required=false, hidden=true) @AuthenticationPrincipal UserDetails user,
+	public MyResponse<?> updateProfile(@Parameter(required=false, hidden=true) @AuthenticationPrincipal UserDetails user,
 			@RequestBody DetailAccountDTO account) {
+		
+		if(!user.getUsername().equalsIgnoreCase(account.getLoginName())) return new MyResponse<>(false, "Chỉnh sửa thông tin thất bại!", null);
+		
 		EntityModel<AccountDTO> model = EntityModel.of(
 				service.updateInformationForUser(account),
 				linkTo(methodOn(AccountController.class).profile(null)).withRel("profile")
 				);
-		return new SuccessResponse("","", model);
+		
+		return new MyResponse<>(true,"Chỉnh sửa thông tin thành công.", model);
 	}
+	
 	
 	@Operation(description="Xóa tài khoản")
 	@DeleteMapping("/deleteAccount")
-	public MyResponse<String> deleteProfile(@Parameter(required=false, hidden=true) @AuthenticationPrincipal UserDetails user,
+	public MyResponse<String> deleteProfile(
+			@Parameter(required=false, hidden=true) @AuthenticationPrincipal UserDetails user,
 			@RequestParam(name="loginName", defaultValue="") String loginName) {
+		
 		if(loginName.length() != 0 && loginName.equals(user.getUsername())) {
 			service.deleteAccount(loginName);
-			return new MyResponse<>(true, "", "Deleted");
+			return new MyResponse<>(true, "", "Đã xóa tài khoản.");
 		}
-		else return new MyResponse<>(false, "", "Delete failed");
+		
+		else return new MyResponse<>(false, "", "Không thể xóa tài khoản!");
 	}
 }

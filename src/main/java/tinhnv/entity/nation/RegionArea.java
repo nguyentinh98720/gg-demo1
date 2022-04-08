@@ -7,6 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor
 @Entity
 @Table(name = "region_areas")
 public class RegionArea {
@@ -18,29 +24,4 @@ public class RegionArea {
 	@Column(name = "region_area", precision = 15, scale = 2)
 	private BigDecimal area;
 
-	public RegionArea(String name, BigDecimal area) {
-		super();
-		this.name = name;
-		this.area = area;
-	}
-
-	public RegionArea() {
-		super();
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public BigDecimal getArea() {
-		return area;
-	}
-
-	public void setArea(BigDecimal area) {
-		this.area = area;
-	}
 }

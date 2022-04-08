@@ -17,8 +17,6 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 //	@Query("update Account as a set a.deleted = true where a.id = ?1")
 //	int deleteAccount(Long id);
 	
-	void deleteByLoginName(String loginName);
-	
 	Optional<Account> findByLoginName(String loginName);
 	
 	@Query("select count(a) from Account as a where a.loginName = ?1")

@@ -3,14 +3,7 @@ package tinhnv.entity.nation.concreate;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import tinhnv.dto.nation.countrydto.CountryDTOForCreate;
-import tinhnv.dto.nation.countrydto.CountryDTOForDetail;
-import tinhnv.dto.nation.countrydto.CountryDTOForList;
-import tinhnv.dto.nation.languagedto.LanguageDTO;
-import tinhnv.dto.nation.regiondto.RegionDTOForList;
-import tinhnv.dto.nation.statisticdto.StatisticDTO;
 import tinhnv.entity.nation.Country;
 import tinhnv.entity.nation.CountryLanguages;
 import tinhnv.entity.nation.Region;
@@ -19,7 +12,6 @@ import tinhnv.entity.nation.builder.CountryInformationBuilder;
 
 public class CountryInformationConcreateBuilder implements CountryInformationBuilder {
 	
-	private Integer id;
 	private String name;
 	private BigDecimal area;
 	private Date nationalDay;
@@ -28,12 +20,6 @@ public class CountryInformationConcreateBuilder implements CountryInformationBui
 	private Region region;
 	private List<CountryLanguages> languages;
 	private List<Statistic> stats;
-
-	@Override
-	public CountryInformationBuilder setId(Integer id) {
-		this.id = id;
-		return this;
-	}
 
 	@Override
 	public CountryInformationBuilder setName(String name) {
@@ -95,37 +81,5 @@ public class CountryInformationConcreateBuilder implements CountryInformationBui
 		country.setLanguages(languages);
 		country.setStats(stats);
 		return country;
-	}
-
-	@Override
-	public CountryDTOForDetail buildDetailDTO() {
-		CountryDTOForDetail dto = new CountryDTOForDetail();
-		dto.setCountryId(id);
-		dto.setCountryName(name);
-		dto.setNationalDay(nationalDay);
-		dto.setArea(area);
-		dto.setCountryCode2(countryCodeTwoChars);
-		dto.setCountryCode3(countryCodeThreeChars);
-		dto.setRegion(RegionDTOForList.toDTO(region));
-		dto.setStatistics(stats.stream().map(StatisticDTO::toDTO).collect(Collectors.toList()));
-		dto.setLanguages(languages.stream().map(LanguageDTO::toDTO).collect(Collectors.toList()));
-		return dto;
-	}
-
-	@Override
-	public CountryDTOForList buildListDTO() {
-		return new CountryDTOForList(id, name);
-	}
-
-	@Override
-	public CountryDTOForCreate buildCreateDTO() {
-		CountryDTOForCreate dto = new CountryDTOForCreate();
-		dto.setCountryId(id);
-		dto.setCountryName(name);
-		dto.setNationalDay(nationalDay);
-		dto.setArea(area);
-		dto.setCountryCode2(countryCodeTwoChars);
-		dto.setCountryCode3(countryCodeThreeChars);
-		return dto;
 	}
 }

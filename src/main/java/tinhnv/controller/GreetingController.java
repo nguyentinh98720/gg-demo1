@@ -75,7 +75,8 @@ public class GreetingController {
 	
 	@PostMapping("/register")
 	public EntityModel<AccountDTO> register(@RequestBody RegisterForm account) throws Exception {
-		return EntityModel.of(accountService.createNewAccount(account), linkTo(methodOn(GreetingController.class).loginFirst())
+		return EntityModel.of(accountService.createNewAccount(account),
+				linkTo(methodOn(GreetingController.class).loginFirst())
 				.withRel("login"));
 	}
 	

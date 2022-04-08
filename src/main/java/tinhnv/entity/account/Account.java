@@ -12,10 +12,16 @@ import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.ParamDef;
 import org.hibernate.annotations.SQLDelete;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor()
 @Entity
 @Table(name = "tai_khoan")
 //@Where(clause="da_xoa=false")
-@SQLDelete(sql = "UPDATE tai_khoan SET da_xoa = true WHERE id=?")
+@SQLDelete(sql = "UPDATE tai_khoan SET da_xoa = true WHERE ma_tai_khoan=?")
 @FilterDef(name = "deletedAccountFilter", parameters = @ParamDef(name = "isDeleted", type = "boolean"))
 @Filter(name = "deletedAccountFilter", condition = "da_xoa = :isDeleted")
 public class Account {
@@ -51,80 +57,4 @@ public class Account {
 
 	@Column(name = "da_xoa")
 	private boolean deleted;
-
-	public Account() {
-		super();
-	}
-
-	public Account(String loginName, String fullName,
-			String address, boolean active,
-			String role) {
-		super();
-		this.loginName = loginName;
-		this.fullName = fullName;
-		this.address = address;
-		this.active = active;
-		this.role = role;
-	}
-
-	public String getLoginName() {
-		return loginName;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public String getFullName() {
-		return fullName;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public boolean isActive() {
-		return active;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
-	public boolean isDeleted() {
-		return deleted;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setLoginName(String loginName) {
-		this.loginName = loginName;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
-	}
-
-	public void setDeleted(boolean deleted) {
-		this.deleted = deleted;
-	}
-	
 }

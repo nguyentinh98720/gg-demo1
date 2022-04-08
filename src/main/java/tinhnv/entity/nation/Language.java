@@ -7,41 +7,27 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@NoArgsConstructor
 @Entity
 @Table(name = "languages")
 public class Language {
 
+	@Getter
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "language_id")
 	private Integer id;
 
+	@Getter @Setter
 	@Column(name = "language", nullable = false, length = 50)
 	private String language;
 	
-	public Language() {
-		super();
-	}
-
 	public Language(String language) {
-		super();
 		this.language = language;
 	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getLanguage() {
-		return language;
-	}
-
-	public void setLanguage(String language) {
-		this.language = language;
-	}
-
+	
 }

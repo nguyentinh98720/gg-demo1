@@ -15,112 +15,53 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
 @Table(name="countries")
 public class Country {
 
+	@Getter
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="country_id")
 	private Integer id;
 	
+
+	@Getter @Setter
 	@Column(length=50, nullable=true)
 	private String name;
-	
+
+	@Getter @Setter
 	@Column(precision=10, scale=2)
 	private BigDecimal area;
 	
+	@Getter @Setter
 	@Column(name="national_day", nullable=true)
 	private Date nationalDay;
 	
+	@Getter @Setter
 	@Column(nullable=false, name="country_code2",
 			unique=true, columnDefinition="CHAR(2)")
 	private String countryCodeTwoChars;
 	
+	@Getter @Setter
 	@Column(nullable=false, name="country_code3",
 			unique=true, columnDefinition="CHAR(3)")
 	private String countryCodeThreeChars;
 	
+	@Getter @Setter
 	@ManyToOne
 	@JoinColumn(name="region_id", nullable=false)
 	private Region region;
 	
+	@Getter @Setter
 	@OneToMany(mappedBy="country", fetch=FetchType.LAZY)
 	private List<Statistic> stats;
 	
+	@Getter @Setter
 	@OneToMany(mappedBy="country", fetch=FetchType.LAZY)
 	private List<CountryLanguages> languages;
 
-	public List<CountryLanguages> getLanguages() {
-		return languages;
-	}
-
-	public void setLanguages(List<CountryLanguages> languages) {
-		this.languages = languages;
-	}
-
-	public Country() {
-		super();
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public BigDecimal getArea() {
-		return area;
-	}
-
-	public void setArea(BigDecimal area) {
-		this.area = area;
-	}
-
-	public Date getNationalDay() {
-		return nationalDay;
-	}
-
-	public void setNationalDay(Date national_day) {
-		this.nationalDay = national_day;
-	}
-
-	public String getCountryCodeTwoChars() {
-		return countryCodeTwoChars;
-	}
-
-	public void setCountryCodeTwoChars(String countryCodeTwoChars) {
-		this.countryCodeTwoChars = countryCodeTwoChars;
-	}
-
-	public String getCountryCodeThreeChars() {
-		return countryCodeThreeChars;
-	}
-
-	public void setCountryCodeThreeChars(String countryCodeThreeChars) {
-		this.countryCodeThreeChars = countryCodeThreeChars;
-	}
-
-	public Region getRegion() {
-		return region;
-	}
-
-	public void setRegion(Region region) {
-		this.region = region;
-	}
-
-	public List<Statistic> getStats() {
-		return stats;
-	}
-
-	public void setStats(List<Statistic> stats) {
-		this.stats = stats;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-	
 }

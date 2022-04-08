@@ -11,57 +11,32 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@NoArgsConstructor
 @Entity
 @Table(name = "continents")
 public class Continent {
 
+	@Getter
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "continent_id")
 	private Integer id;
 
+	@Getter @Setter
 	@Column(name = "name", nullable = false)
 	private String name;
 
+
+	@Getter @Setter
 	@OneToMany(mappedBy = "continent", fetch = FetchType.LAZY)
 	private List<Region> regions;
 
-	public Continent() {
-		super();
-	}
-
-	public Continent(String name, List<Region> regions) {
-		super();
-		this.name = name;
-		this.regions = regions;
-	}
-
 	public Continent(String continentName) {
-		this(continentName, null);
+		this.name = continentName;
 	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public List<Region> getRegions() {
-		return regions;
-	}
-
-	public void setRegions(List<Region> regions) {
-		this.regions = regions;
-	}
-
+	
 }

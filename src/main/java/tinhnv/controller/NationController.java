@@ -31,7 +31,7 @@ import tinhnv.service.INationService;
 
 @RestController
 @RequestMapping("/api/nation")
-@Tag(name="Nation", description="Truy vấn thông tin các quốc gia")
+@Tag(name="Nation", description="Truy vấn thông tin cơ sở dữ liệu nation")
 public class NationController {
 	
 	@Autowired

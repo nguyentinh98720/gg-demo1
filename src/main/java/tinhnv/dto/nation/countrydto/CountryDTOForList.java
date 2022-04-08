@@ -1,40 +1,14 @@
 package tinhnv.dto.nation.countrydto;
 
-import tinhnv.entity.nation.Country;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class CountryDTOForList {
 
 	private Integer countryId;
 	private String countryName;
 
-	public CountryDTOForList() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	public CountryDTOForList(Integer countryId, String countryName) {
-		super();
-		this.countryId = countryId;
-		this.countryName = countryName;
-	}
-
-	public Integer getCountryId() {
-		return countryId;
-	}
-
-	public String getCountryName() {
-		return countryName;
-	}
-
-	public void setCountryId(Integer countryId) {
-		this.countryId = countryId;
-	}
-
-	public void setCountryName(String countryName) {
-		this.countryName = countryName;
-	}
-
-	public static CountryDTOForList toDTO(Country country) {
-		return new CountryDTOForList(country.getId(), country.getName());
-	}
 }

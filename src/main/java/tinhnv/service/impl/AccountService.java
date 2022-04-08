@@ -3,7 +3,6 @@ package tinhnv.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 
@@ -25,6 +24,7 @@ import tinhnv.entity.account.concreate.AccountConcreateBuilder;
 import tinhnv.exception.AccountExistException;
 import tinhnv.exception.AccountNotFoundException;
 import tinhnv.exception.FormTransferException;
+import tinhnv.mapper.AccountMapper;
 import tinhnv.repository.AccountRepository;
 import tinhnv.service.IAccountService;
 
@@ -40,6 +40,9 @@ public class AccountService implements IAccountService {
 	
 	@Autowired
 	PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	AccountMapper accountMapper;
 
 	@Override
 	public AccountDTO createNewAccount(DetailAccountDTO account) throws Exception {
@@ -53,7 +56,7 @@ public class AccountService implements IAccountService {
 		.setActive(account.isActive())
 		.setRole(account.getRole())
 		.setPassword(passwordEncoder.encode(account.getPassword()));
-		return AccountDTO.toDTO(repository.save(newAccount.buildEntity()));
+		return accountMapper.entityToDTO(repository.save(newAccount.buildEntity()));
 	}
 
 	@Override
@@ -61,7 +64,7 @@ public class AccountService implements IAccountService {
 		Pageable page = PageRequest.of(pageNumber, pageSize);
 		List<Account> accounts = new ArrayList<>();
 		findAll(deleted, page).forEach(accounts::add);
-		return accounts.stream().map(AccountDTO::toDTO).collect(Collectors.toList());
+		return accountMapper.entityToDTO(accounts);
 	}
 
 	@Override
@@ -69,14 +72,14 @@ public class AccountService implements IAccountService {
 		Account account = repository.findById(id)
 				.orElseThrow(() ->
 				new AccountNotFoundException("Không tìm thấy tài khoản theo yêu cầu!"));
-		return DetailAccountDTO.toDTO(account);
+		return accountMapper.entityToDetailDTO(account);
 	}
 
 	@Override
 	public List<AccountDTO> allAccount(boolean deleted) {
 		List<Account> accounts = new ArrayList<>();
 		findAll(deleted, null).forEach(accounts::add);
-		return accounts.stream().map(AccountDTO::toDTO).collect(Collectors.toList());
+		return accountMapper.entityToDTO(accounts);
 	}
 
 	@Override
@@ -88,7 +91,7 @@ public class AccountService implements IAccountService {
 			update.setRole(account.getRole());
 			update.setActive(account.isActive());
 			update.setPassword(passwordEncoder.encode(account.getPassword()));
-			return AccountDTO.toDTO(repository.save(update));
+			return accountMapper.entityToDTO(repository.save(update));
 		}
 		throw new AccountNotFoundException("Không tìm thấy tài khoản!");
 	}
@@ -98,12 +101,16 @@ public class AccountService implements IAccountService {
 		Account account = repository.findByLoginName(loginName)
 				.orElseThrow(() -> 
 				new AccountNotFoundException("Không tìm thấy tài khoản nào với tên đăng nhập: " + loginName));
-		return DetailAccountDTO.toDTO(account);
+		return accountMapper.entityToDetailDTO(account);
 	}
 
 	@Override
 	public void deleteAccount(String loginName) {
-		repository.deleteByLoginName(loginName);
+		Optional<Account> account = repository.findByLoginName(loginName);
+		account.ifPresentOrElse(
+				a -> repository.deleteById(a.getId()),
+				AccountNotFoundException::new
+		);
 	}
 
 	@Override
@@ -129,7 +136,7 @@ public class AccountService implements IAccountService {
 		.setRole("FREE_USER");
 		
 		createAccount.setPassword(passwordEncoder.encode(account.getPassword()));
-		return AccountDTO.toDTO(repository.save(createAccount.buildEntity()));
+		return accountMapper.entityToDTO(repository.save(createAccount.buildEntity()));
 	}
 	
 	private Iterable<Account> findAll(boolean deleted, Pageable page) {
@@ -148,7 +155,8 @@ public class AccountService implements IAccountService {
 			Account update = updateAccount.get();
 			update.setFullName(account.getFullName());
 			update.setPassword(passwordEncoder.encode(account.getPassword()));
-			return AccountDTO.toDTO(repository.save(update));
+			update.setAddress(account.getAddress());
+			return accountMapper.entityToDTO(repository.save(update));
 		}
 		throw new AccountNotFoundException("Không tìm thấy tài khoản theo yêu cầu!");
 	}

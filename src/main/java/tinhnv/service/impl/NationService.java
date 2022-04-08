@@ -44,6 +44,10 @@ import tinhnv.entity.nation.Statistic;
 import tinhnv.entity.nation.builder.CountryInformationBuilder;
 import tinhnv.entity.nation.concreate.CountryInformationConcreateBuilder;
 import tinhnv.entity.nation.idClass.CountryStatisticId;
+import tinhnv.mapper.ContinentMapper;
+import tinhnv.mapper.CountryMapper;
+import tinhnv.mapper.RegionMapper;
+import tinhnv.mapper.StatisticMapper;
 import tinhnv.repository.ContinentRepository;
 import tinhnv.repository.CountryLanguageRepository;
 import tinhnv.repository.CountryRepository;
@@ -75,6 +79,15 @@ public class NationService implements INationService {
 	@PersistenceContext
 	EntityManager entityManager;
 	
+	@Autowired
+	CountryMapper countryMapper;
+	@Autowired
+	RegionMapper regionMapper;
+	@Autowired
+	ContinentMapper continentMapper;
+	@Autowired
+	StatisticMapper statisticMapper;
+	
 	private JPAQueryFactory queryFactory;
 	
 	public NationService() {
@@ -83,27 +96,23 @@ public class NationService implements INationService {
 	
 	@Override
 	public List<ContinentDTOForList> allContinent() {
-		return continent.findAll().stream()
-				.map(ContinentDTOForList::toDTO)
-				.collect(Collectors.toList());
+		return continentMapper.toDTOForList(continent.findAll());
 	}
 
 	@Override
 	public ContinentDTOForDetail detailContinent(Integer id) {
 		Optional<Continent> detail = continent.findById(id);
 		if(detail.isPresent()) {
-			return ContinentDTOForDetail.toDTO(detail.get());
+			return continentMapper.toDTOForDetail(detail.get());
 		}
-		throw new EntityNotFoundException("continent not found");
+		throw new EntityNotFoundException("Không tìm thấy thực thể yêu cầu! <continent with id: " + id + ">");
 		
 //		return detail.isPresent()? ContinentDTOForDetail.toDTO(detail.get()) : null;
 	}
 
 	@Override
 	public List<RegionDTOForList> allRegions() {
-		return region.findAll().stream()
-				.map(RegionDTOForList::toDTO)
-				.collect(Collectors.toList());
+		return regionMapper.toDTOForList(region.findAll());
 	}
 
 	@Override
@@ -113,17 +122,17 @@ public class NationService implements INationService {
 		if(detail.isPresent()) {
 			Optional<RegionArea> area = regionArea.findByName(detail.get().getName());
 			
-			dto = RegionDTOForDetail.toDTO(detail.get());
+			dto = regionMapper.toDTOForDetail(detail.get());
 			dto.setArea(area.isPresent()?area.get().getArea():null);
 			return dto;
 		}
-		throw new EntityNotFoundException("region not found");
+		throw new EntityNotFoundException("<Không tìm thấy thực thể yêu cầu!> region with id: " + id + " was not found.");
 	}
 
 	@Override
 	public List<CountryDTOForList> allCountries() {
 		return country.findAll().stream()
-				.map(CountryDTOForList::toDTO)
+				.map(countryMapper::toDTOForList)
 				.collect(Collectors.toList());
 	}
 
@@ -131,9 +140,9 @@ public class NationService implements INationService {
 	public CountryDTOForDetail detailCountry(Integer id) {
 		Optional<Country> detail = country.findById(id);
 		if(detail.isPresent()) {
-			return CountryDTOForDetail.toDTO(detail.get());
+			return countryMapper.toDTOForDetail(detail.get());
 		}
-		throw new EntityNotFoundException("country not found");
+		throw new EntityNotFoundException("Không tìm thấy thực thể yêu cầu! <country with id: " + id + ">");
 	}
 
 	@Override
@@ -145,7 +154,7 @@ public class NationService implements INationService {
 	@Override
 	public ContinentDTOForList createContinent(String continentName) {
 		Continent newContinent = new Continent(continentName);
-		return ContinentDTOForList.toDTO(continent.save(newContinent));
+		return continentMapper.toDTOForList(continent.save(newContinent));
 	}
 
 	@Override
@@ -155,7 +164,7 @@ public class NationService implements INationService {
 		region.save(newRegion);
 		RegionArea newRegionArea = new RegionArea(regionName, area);
 		regionArea.save(newRegionArea);
-		return RegionDTOForList.toDTO(newRegion);
+		return regionMapper.toDTOForList(newRegion);
 	}
 
 	@Override
@@ -165,8 +174,8 @@ public class NationService implements INationService {
 		Country newCountry = builder.setName(countryData.getCountryName())
 				.setArea(countryData.getArea())
 				.setNationalDay(countryData.getNationalDay())
-				.setCountryCodeTwoChars(countryData.getCountryCode2())
-				.setCountryCodeThreeChars(countryData.getCountryCode3())
+				.setCountryCodeTwoChars(countryData.getCountryCodeTwoChars())
+				.setCountryCodeThreeChars(countryData.getCountryCodeThreeChars())
 				.setRegion(currentRegion)
 				.buildEntity();
 		List<CountryLanguages> countryLanguages = new ArrayList<>();
@@ -176,7 +185,7 @@ public class NationService implements INationService {
 			countryLanguages.add(countryLan);
 		});
 		newCountry.setLanguages(countryLanguages);
-		CountryDTOForList result = CountryDTOForList.toDTO(country.save(newCountry));
+		CountryDTOForList result = countryMapper.toDTOForList(country.save(newCountry));
 		countryLanguageRepo.saveAll(countryLanguages);
 		return result;
 	}
@@ -184,8 +193,8 @@ public class NationService implements INationService {
 	@Override
 	public StatisticDTO createStatistic(StatisticDTO statistic, Integer countryId) {
 		Country currentCountry = country.getById(countryId);
-		Statistic newStatistic = new Statistic(currentCountry, statistic.getYear(), statistic.getPopulation(), statistic.getGdp());
-		return StatisticDTO.toDTO(statisticRepo.save(newStatistic));
+		Statistic newStatistic = new Statistic(statistic.getYear(), statistic.getPopulation(), statistic.getGdp(), currentCountry);
+		return statisticMapper.toDTO(statisticRepo.save(newStatistic));
 	}
 
 	@Override
@@ -267,8 +276,8 @@ public class NationService implements INationService {
 		.where(qCountry.id.eq(country.getCountryId()))
 		.set(qCountry.name, country.getCountryName())
 		.set(qCountry.area, country.getArea())
-		.set(qCountry.countryCodeTwoChars, country.getCountryCode2())
-		.set(qCountry.countryCodeThreeChars, country.getCountryCode3())
+		.set(qCountry.countryCodeTwoChars, country.getCountryCodeTwoChars())
+		.set(qCountry.countryCodeThreeChars, country.getCountryCodeThreeChars())
 		.set(qCountry.nationalDay, country.getNationalDay())
 		.execute();
 		if(regionId > 0) {
@@ -310,18 +319,18 @@ public class NationService implements INationService {
 	public Paging<CountryDTOForList> listCountries(Integer pageNo, Integer pageSize) {
 		Pageable page = PageRequest.of(pageNo, pageSize);
 		Page<CountryDTOForList> countryPage = country.findAll(page)
-				.map(CountryDTOForList::toDTO);
+				.map(countryMapper::toDTOForList);
 		return Paging.paging(countryPage);
 	}
 
 	@Override
 	public List<RegionDTOForList> listRegion() {
-		return region.findAll().stream().map(RegionDTOForList::toDTO).collect(Collectors.toList());
+		return regionMapper.toDTOForList(region.findAll());
 	}
 
 	@Override
 	public List<ContinentDTOForList> listContinent() {
-		return continent.findAll().stream().map(ContinentDTOForList::toDTO).collect(Collectors.toList());
+		return continentMapper.toDTOForList(continent.findAll());
 	}
 
 }

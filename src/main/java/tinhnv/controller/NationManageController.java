@@ -42,7 +42,7 @@ import tinhnv.transfer.Paging;
 
 @RestController
 @RequestMapping("/nation-manage")
-@Tag(name = "Nation Manage", description = "Quản lý dữ liệu các quốc gia")
+@Tag(name = "Nation Manage", description = "Quản lý dữ liệu nation")
 public class NationManageController {
 
 	@Autowired

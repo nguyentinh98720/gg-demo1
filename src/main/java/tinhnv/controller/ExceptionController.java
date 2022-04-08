@@ -1,5 +1,7 @@
 package tinhnv.controller;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -33,9 +35,15 @@ public class ExceptionController {
 				.body(new ErrorResponse(exception.getMessage(), "", null));
 	}
 	
-	@ExceptionHandler(Exception.class)
-	public ResponseEntity<ErrorResponse> accessDenied(Exception exception) {
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-				.body(new ErrorResponse("Something wrong!", exception.getMessage() , null));
+	@ExceptionHandler(EntityNotFoundException.class)
+	public ResponseEntity<ErrorResponse> entityNotFound(EntityNotFoundException exception) {
+		return ResponseEntity.status(HttpStatus.NOT_FOUND)
+				.body(new ErrorResponse(exception.getMessage(), "", null));
 	}
+	
+//	@ExceptionHandler(Exception.class)
+//	public ResponseEntity<ErrorResponse> accessDenied(Exception exception) {
+//		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//				.body(new ErrorResponse("Something wrong!", exception.getMessage() , null));
+//	}
 }

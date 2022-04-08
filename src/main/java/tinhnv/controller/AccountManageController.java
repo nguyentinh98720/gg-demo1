@@ -34,13 +34,13 @@ public class AccountManageController {
 	@Autowired
 	CollectionAccountDTOAssembler collectionAssembler;
 	
-	@GetMapping("/accounts")
+	@GetMapping
 	@Operation(description="Lấy danh sách tất cả các tài khoản")
 	public MyResponse<CollectionModel<EntityModel<AccountDTO>>> all() {
 		return new MyResponse<>(true, "", collectionAssembler.toModel(service.allAccount(false)));
 	}
 	
-	@GetMapping("/accounts/{pageNo}/{pageSize}")
+	@GetMapping("/{pageNo}/{pageSize}")
 	@Operation(description="Lấy danh sách theo số trang")
 	public MyResponse<CollectionModel<EntityModel<AccountDTO>>> list(
 			@Parameter(required=true, description="Số thứ tự của trang") @PathVariable("pageNo") Integer pageNo,
@@ -48,7 +48,7 @@ public class AccountManageController {
 		return new MyResponse<>(true, "", collectionAssembler.toModel(service.allAccount(pageNo, pageSize, false)));
 	}
 	
-	@GetMapping("/accounts/{id}")
+	@GetMapping("/{id}")
 	@Operation(description="Lấy thông tin chi tiết tài khoản")
 	public MyResponse<EntityModel<AccountDTO>> one(
 			@Parameter(required=true, description="Mã id của tài khoản cần lấy thông tin") @PathVariable("id") Long id) {
@@ -56,7 +56,7 @@ public class AccountManageController {
 				modelAssembler.toModel(service.detailAccount(id)));
 	}
 	
-	@PostMapping("/accounts")
+	@PostMapping
 	@Operation(description="Thêm tài khoản mới")
 	public MyResponse<EntityModel<AccountDTO>> create(
 			@Parameter(required=true, description="Thông tin tài khoản mới") @RequestBody DetailAccountDTO account) throws Exception {
@@ -64,7 +64,7 @@ public class AccountManageController {
 		return new MyResponse<>(true, "", modelAssembler.toModel(acc));
 	}
 	
-	@PutMapping("/accounts")
+	@PutMapping
 	@Operation(description="Chỉnh sửa thông tin tài khoản")
 	public MyResponse<EntityModel<AccountDTO>> update(
 			@Parameter(required=true, description="Thông tin cập nhật") @RequestBody DetailAccountDTO account) {
@@ -72,12 +72,12 @@ public class AccountManageController {
 				modelAssembler.toModel(service.updateInformation(account)));
 	}
 	
-	@DeleteMapping("/accounts/{id}")
+	@DeleteMapping("/{id}")
 	@Operation(description="Xóa tài khoản")
-	public MyResponse<Integer> delete(
+	public MyResponse<?> delete(
 			@Parameter(required=true, description="Mã id của tài khoản cần xóa") @PathVariable Long id) {
 		service.deleteAccount(id);
-		return new MyResponse<>(true, "", null);
+		return new MyResponse<>(true, "Tài khoản với mã id: " + id + " đã bị xóa.", null);
 	}
 	
 	

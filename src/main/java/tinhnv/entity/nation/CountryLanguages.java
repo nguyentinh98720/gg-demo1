@@ -8,8 +8,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import tinhnv.entity.nation.idClass.CountryLanguageId;
 
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor
 @Entity
 @Table(name="country_languages")
 @IdClass(CountryLanguageId.class)
@@ -28,40 +33,4 @@ public class CountryLanguages {
 	@Column(name="official", nullable=false)
 	private boolean official;
 
-	public CountryLanguages(Country country, Language language, boolean official) {
-		super();
-		this.country = country;
-		this.language = language;
-		this.official = official;
-	}
-
-	public CountryLanguages() {
-		super();
-	}
-
-	public Language getLanguage() {
-		return language;
-	}
-
-	public void setLanguage(Language language) {
-		this.language = language;
-	}
-
-	public boolean isOfficial() {
-		return official;
-	}
-
-	public void setOfficial(boolean official) {
-		this.official = official;
-	}
-
-	public Country getCountry() {
-		return country;
-	}
-
-	public void setCountry(Country country) {
-		this.country = country;
-	}
-	
-	
 }

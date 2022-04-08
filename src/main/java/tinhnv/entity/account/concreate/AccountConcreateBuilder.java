@@ -59,7 +59,13 @@ public class AccountConcreateBuilder implements AccountBuilder {
 
 	@Override
 	public Account buildEntity() {
-		return new Account(loginName, fullName, address, active, role);
+		Account entity = new Account();
+		entity.setLoginName(loginName);
+		entity.setFullName(fullName);
+		entity.setAddress(address);
+		entity.setActive(active);
+		entity.setRole(role);
+		return entity;
 	}
 
 	@Override
