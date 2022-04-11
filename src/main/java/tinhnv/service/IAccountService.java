@@ -8,7 +8,7 @@ import tinhnv.dto.account.DetailAccountDTO;
 
 public interface IAccountService {
 
-	AccountDTO createNewAccount(DetailAccountDTO account) throws Exception;
+	AccountDTO createNewAccount(DetailAccountDTO account);
 	List<AccountDTO> allAccount(int pageNumber, int pageSize, boolean deleted);
 	List<AccountDTO> allAccount(boolean deleted);
 	AccountDTO detailAccount(Long id);
@@ -20,6 +20,6 @@ public interface IAccountService {
 	//for user
 	void deleteAccount(String loginName);
 	DetailAccountDTO detailAccount(String loginName);
-	AccountDTO createNewAccount(RegisterForm account) throws Exception;
+	AccountDTO createNewAccount(RegisterForm account);
 	AccountDTO updateInformationForUser(DetailAccountDTO account);
 }

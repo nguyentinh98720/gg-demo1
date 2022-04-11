@@ -41,9 +41,9 @@ public class ExceptionController {
 				.body(new ErrorResponse(exception.getMessage(), "", null));
 	}
 	
-//	@ExceptionHandler(Exception.class)
-//	public ResponseEntity<ErrorResponse> accessDenied(Exception exception) {
-//		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//				.body(new ErrorResponse("Something wrong!", exception.getMessage() , null));
-//	}
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<ErrorResponse> accessDenied(Exception exception) {
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+				.body(new ErrorResponse("Something wrong!", exception.getMessage() , null));
+	}
 }

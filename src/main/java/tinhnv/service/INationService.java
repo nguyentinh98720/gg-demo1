@@ -8,6 +8,7 @@ import tinhnv.dto.nation.continentdto.ContinentDTOForList;
 import tinhnv.dto.nation.countrydto.CountryDTOForCreate;
 import tinhnv.dto.nation.countrydto.CountryDTOForDetail;
 import tinhnv.dto.nation.countrydto.CountryDTOForList;
+import tinhnv.dto.nation.languagedto.LanguageDTOCreate;
 import tinhnv.dto.nation.languagedto.TinyLanguageDTO;
 import tinhnv.dto.nation.regiondto.RegionDTOForDetail;
 import tinhnv.dto.nation.regiondto.RegionDTOForList;
@@ -38,7 +39,7 @@ public interface INationService {
 	void deleteRegion(Integer regionId);
 	void deleteContinent(Integer continentId);
 	
-	Language updateLanguage(Language language);
+	LanguageDTOCreate updateLanguage(LanguageDTOCreate language);
 	ContinentDTOForList updateContinent(ContinentDTOForList continentName);
 	RegionDTOForList updateRegion(RegionDTOForList region, Integer continentId, BigDecimal area);
 	CountryDTOForList updateCountry(CountryDTOForDetail country, Integer regionId);

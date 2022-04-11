@@ -33,6 +33,7 @@ import tinhnv.dto.nation.continentdto.ContinentDTOForList;
 import tinhnv.dto.nation.countrydto.CountryDTOForCreate;
 import tinhnv.dto.nation.countrydto.CountryDTOForDetail;
 import tinhnv.dto.nation.countrydto.CountryDTOForList;
+import tinhnv.dto.nation.languagedto.LanguageDTOCreate;
 import tinhnv.dto.nation.languagedto.TinyLanguageDTO;
 import tinhnv.dto.nation.regiondto.RegionDTOForList;
 import tinhnv.dto.nation.statisticdto.StatisticDTO;
@@ -163,7 +164,7 @@ public class NationManageController {
 	}
 	
 	@PutMapping("/languages")
-	public EntityModel<Language> updateLanguage(@RequestBody Language language) {
+	public EntityModel<LanguageDTOCreate> updateLanguage(@RequestBody LanguageDTOCreate language) {
 		return EntityModel.of(service.updateLanguage(language));
 	}
 	

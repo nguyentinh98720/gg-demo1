@@ -11,7 +11,7 @@ import tinhnv.entity.account.Account;
 
 public class MyUserDetails implements UserDetails {
 
-	Account account;
+	private Account account;
 
 	private static final long serialVersionUID = 1L;
 

@@ -9,14 +9,6 @@ import tinhnv.entity.account.Account;
 
 public interface AccountRepository extends JpaRepository<Account, Long> {
 	
-//	@Modifying
-//	@Query("update Account as a set a.deleted = true where a.loginName = ?1")
-//	int deleteAccount(String loginName);
-//	
-//	@Modifying
-//	@Query("update Account as a set a.deleted = true where a.id = ?1")
-//	int deleteAccount(Long id);
-	
 	Optional<Account> findByLoginName(String loginName);
 	
 	@Query("select count(a) from Account as a where a.loginName = ?1")

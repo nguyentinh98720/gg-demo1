@@ -32,5 +32,5 @@ public interface ContinentMapper {
 		detail.setContinentName(entity.getName());
 		detail.setRegions(regionMapper.toDTOForList(entity.getRegions()));
 		return detail;
-	};
+	}
 }

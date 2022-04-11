@@ -45,7 +45,7 @@ public class AccountService implements IAccountService {
 	AccountMapper accountMapper;
 
 	@Override
-	public AccountDTO createNewAccount(DetailAccountDTO account) throws Exception {
+	public AccountDTO createNewAccount(DetailAccountDTO account) {
 		if(repository.isLoginNameExist(account.getLoginName()) > 0) {
 			throw new AccountExistException("Tài khoản đã tồn tại!");
 		}
@@ -119,7 +119,7 @@ public class AccountService implements IAccountService {
 	}
 
 	@Override
-	public AccountDTO createNewAccount(RegisterForm account) throws Exception {
+	public AccountDTO createNewAccount(RegisterForm account) {
 		if(repository.isLoginNameExist(account.getLoginName()) > 0) {
 			throw new AccountExistException("Tài khoản đã tồn tại!");
 		}

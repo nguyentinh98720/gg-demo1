@@ -1,5 +1,7 @@
 package tinhnv.entity.account;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,7 +26,9 @@ import lombok.Setter;
 @SQLDelete(sql = "UPDATE tai_khoan SET da_xoa = true WHERE ma_tai_khoan=?")
 @FilterDef(name = "deletedAccountFilter", parameters = @ParamDef(name = "isDeleted", type = "boolean"))
 @Filter(name = "deletedAccountFilter", condition = "da_xoa = :isDeleted")
-public class Account {
+public class Account implements Serializable {
+
+	private static final long serialVersionUID = 3934568372579928751L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,12 +46,6 @@ public class Account {
 
 	@Column(name = "dia_chi")
 	private String address;
-
-//	@Column(name = "khoa_truy_cap")
-//	private String token;
-	
-//	@Column(name = "tao_khoa")
-//	private Timestamp timeToken;
 
 	@Column(name = "hoat_dong")
 	private boolean active;

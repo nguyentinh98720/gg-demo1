@@ -2,8 +2,11 @@ package tinhnv.mapper;
 
 import java.util.List;
 
+import org.mapstruct.AfterMapping;
+import org.mapstruct.BeforeMapping;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 
 import tinhnv.dto.account.AccountDTO;
@@ -11,7 +14,21 @@ import tinhnv.dto.account.DetailAccountDTO;
 import tinhnv.entity.account.Account;
 
 @Mapper(componentModel = "spring", disableSubMappingMethodsGeneration = true)
-public interface AccountMapper {
+public abstract class AccountMapper {
+	
+	@BeforeMapping
+	protected void setNote(Account entity, @MappingTarget DetailAccountDTO dto) {
+		if(entity.isActive()) {
+			dto.setNote("Trạng thái hoạt động bình thường");
+		} else {
+			dto.setNote("Tài khoản đang bị khóa!");
+		}
+	}
+	
+	@AfterMapping
+	protected void hidePassword(@MappingTarget DetailAccountDTO dto) {
+		dto.setPassword("*********");
+	}
 
 	/* 
 	 * Note:
@@ -22,10 +39,10 @@ public interface AccountMapper {
 	 */
 	
 	@Named(value="dto")
-	AccountDTO entityToDTO(Account entity);
+	public abstract AccountDTO entityToDTO(Account entity);
 	
 	@IterableMapping(qualifiedByName = "dto")
-	List<AccountDTO> entityToDTO(List<Account> entities);
+	public abstract List<AccountDTO> entityToDTO(List<Account> entities);
 	
-	DetailAccountDTO entityToDetailDTO(Account entity);
+	public abstract DetailAccountDTO entityToDetailDTO(Account entity);
 }

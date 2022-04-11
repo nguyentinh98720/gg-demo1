@@ -15,7 +15,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import tinhnv.entity.nation.idClass.CountryStatisticId;
+import tinhnv.entity.nation.idclass.CountryStatisticId;
 
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 @Entity

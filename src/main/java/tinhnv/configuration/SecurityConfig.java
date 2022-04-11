@@ -16,9 +16,9 @@ import tinhnv.security.MyUserDetailsService;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(
-		securedEnabled = true,
+		securedEnabled = false,
 		prePostEnabled = true,
-		jsr250Enabled = true
+		jsr250Enabled = false
 		)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -37,7 +37,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests()
+		// to use https protocol on heroku app
+		http.requiresChannel()
+	      .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
+	      .requiresSecure();
+		
+		http
+//		.csrf().disable()
+		.authorizeRequests()
          	.antMatchers("/register", "/login").permitAll()
 				.antMatchers("/account-manage/**", "/nation-manage/**").hasAuthority("ADMIN")
 				.anyRequest().authenticated()

@@ -39,5 +39,5 @@ public interface CountryMapper {
 		detail.setLanguages(languageMapper.toDTO(entity.getLanguages()));
 		detail.setStatistics(statisticMapper.toDTO(entity.getStats()));
 		return detail;
-	};
+	}
 }

@@ -1,4 +1,4 @@
-package tinhnv.entity.nation.idClass;
+package tinhnv.entity.nation.idclass;
 
 import java.io.Serializable;
 

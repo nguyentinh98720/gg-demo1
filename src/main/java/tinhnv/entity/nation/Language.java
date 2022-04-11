@@ -24,10 +24,10 @@ public class Language {
 
 	@Getter @Setter
 	@Column(name = "language", nullable = false, length = 50)
-	private String language;
+	private String name;
 	
-	public Language(String language) {
-		this.language = language;
+	public Language(String name) {
+		this.name = name;
 	}
 	
 }

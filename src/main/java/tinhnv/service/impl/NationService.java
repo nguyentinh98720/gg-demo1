@@ -24,6 +24,7 @@ import tinhnv.dto.nation.continentdto.ContinentDTOForList;
 import tinhnv.dto.nation.countrydto.CountryDTOForCreate;
 import tinhnv.dto.nation.countrydto.CountryDTOForDetail;
 import tinhnv.dto.nation.countrydto.CountryDTOForList;
+import tinhnv.dto.nation.languagedto.LanguageDTOCreate;
 import tinhnv.dto.nation.languagedto.TinyLanguageDTO;
 import tinhnv.dto.nation.regiondto.RegionDTOForDetail;
 import tinhnv.dto.nation.regiondto.RegionDTOForList;
@@ -43,7 +44,7 @@ import tinhnv.entity.nation.RegionArea;
 import tinhnv.entity.nation.Statistic;
 import tinhnv.entity.nation.builder.CountryInformationBuilder;
 import tinhnv.entity.nation.concreate.CountryInformationConcreateBuilder;
-import tinhnv.entity.nation.idClass.CountryStatisticId;
+import tinhnv.entity.nation.idclass.CountryStatisticId;
 import tinhnv.mapper.ContinentMapper;
 import tinhnv.mapper.CountryMapper;
 import tinhnv.mapper.RegionMapper;
@@ -106,8 +107,6 @@ public class NationService implements INationService {
 			return continentMapper.toDTOForDetail(detail.get());
 		}
 		throw new EntityNotFoundException("Không tìm thấy thực thể yêu cầu! <continent with id: " + id + ">");
-		
-//		return detail.isPresent()? ContinentDTOForDetail.toDTO(detail.get()) : null;
 	}
 
 	@Override
@@ -223,11 +222,12 @@ public class NationService implements INationService {
 	}
 
 	@Override
-	public Language updateLanguage(Language language) {
-		QLanguage qLang = QLanguage.language1;
+	public LanguageDTOCreate updateLanguage(LanguageDTOCreate language) {
+		
+		QLanguage qLang = QLanguage.language;
 		queryFactory.update(qLang)
 				.where(qLang.id.eq(language.getId()))
-				.set(qLang.language, language.getLanguage())
+				.set(qLang.name, language.getName())
 				.execute();
 		return language;
 	}
@@ -289,7 +289,7 @@ public class NationService implements INationService {
 			.set(qCountry.region, r)
 			.execute();
 		}
-		return (CountryDTOForList) country;
+		return country;
 	}
 
 	@Override
@@ -305,7 +305,7 @@ public class NationService implements INationService {
 		.set(qStat.population, statistic.getPopulation())
 		.set(qStat.gdp, statistic.getGdp())
 		.execute();
-		return null;
+		return statistic;
 	}
 
 	@Override

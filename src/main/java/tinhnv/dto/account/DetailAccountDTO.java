@@ -13,4 +13,7 @@ public class DetailAccountDTO extends AccountDTO {
 	private String password;
 	@Schema(description = "Địa chỉ")
 	private String address;
+	
+	@Schema(hidden=true)
+	private String note;
 }
