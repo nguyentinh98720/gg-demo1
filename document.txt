@@ -66,10 +66,6 @@
 	- region_area		long
 	* Country_stats
 	- country_id		integer
-	- year				integer
+	- year			integer
 	- population		long
-	- gdp				bigInteger
-	
-	
-Client ID: 752527922755-5s24dvik9ae1conhe8ipmsbl50ecgcm0.apps.googleusercontent.com
-Client secret: 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
+	- gdp			bigInteger
